@@ -14,7 +14,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({ className, isLoading
         className={cn(
           "w-full max-w-md h-16 lg:h-20",
           "text-xl lg:text-2xl font-bold text-white",
-          "bg-gradient-to-r from-emerald-600 to-emerald-500",
+          "bg-linear-to-r from-emerald-600 to-emerald-500",
           "hover:from-emerald-500 hover:to-emerald-400",
           "rounded-xl shadow-xl hover:shadow-2xl",
           "transform hover:scale-[1.02] active:scale-[0.98]",

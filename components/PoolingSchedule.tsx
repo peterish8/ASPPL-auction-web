@@ -7,7 +7,7 @@ interface PoolingScheduleProps {
 
 export const PoolingSchedule: React.FC<PoolingScheduleProps> = ({ locations }) => {
   return (
-    <div className="w-full lg:sticky lg:top-8 lg:h-fit order-last lg:order-none mt-8 lg:mt-0">
+    <div className="w-full lg:sticky lg:top-8 lg:h-fit">
       <div className="bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-800 p-6 lg:p-12">
         
         {/* Header */}
