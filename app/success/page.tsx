@@ -31,8 +31,8 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   return (
     <div className="min-h-screen bg-slate-950">
       <Header />
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 lg:py-16">
-        <div className="flex flex-col items-center justify-center min-h-[600px] text-center px-6">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-8 lg:py-16">
+        <div className="flex flex-col items-center pt-10 lg:justify-center lg:min-h-[600px] text-center px-6">
           {/* Success Icon */}
           <div className="w-24 h-24 lg:w-32 lg:h-32 bg-green-500/20 rounded-full flex items-center justify-center mb-8 shadow-2xl shadow-green-900/40 animate-pulse">
             <svg className="w-12 h-12 lg:w-16 lg:h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
