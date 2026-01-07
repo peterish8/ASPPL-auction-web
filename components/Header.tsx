@@ -12,11 +12,11 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-gradient-to-r from-emerald-900 to-emerald-800 px-5 py-8 lg:px-16 lg:py-10 shadow-xl relative z-10">
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 lg:mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6 mb-6 lg:mb-8">
           {/* Logo Placeholder */}
-          <div className="w-12 h-12 lg:w-20 lg:h-20 shrink-0 bg-white/10 rounded-xl lg:rounded-2xl flex items-center justify-center overflow-hidden border border-white/10">
-             {/* <img src="/logo.png" alt="ASPPL Logo" className="w-full h-full object-cover" /> */}
-             <span className="text-lg lg:text-2xl font-bold text-emerald-400">AP</span>
+          {/* Logo Placeholder */}
+          <div className="w-12 h-12 lg:w-20 lg:h-20 shrink-0 bg-white rounded-xl lg:rounded-2xl flex items-center justify-center overflow-hidden border border-white/10 shadow-md">
+             <img src="/logo.png" alt="ASPPL Logo" className="w-full h-full object-contain p-1" />
           </div>
           
           <div>
