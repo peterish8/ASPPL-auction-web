@@ -30,11 +30,39 @@ export const BookingForm: React.FC<BookingFormProps> = ({ trade, options }) => {
     register,
     control,
     handleSubmit,
+    watch,
+    reset,
     formState: { errors, isValid },
   } = useForm<SubmissionSchema>({
     resolver: zodResolver(submissionSchema) as any,
     mode: "onChange"
   });
+
+  // Load saved form data on mount
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem(`form_draft_${trade.trade_number}`);
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                // Reset form with saved data
+                reset(parsed);
+            } catch (e) {
+                console.error("Failed to parse saved draft", e);
+            }
+        }
+    }
+  }, [trade.trade_number, reset]);
+
+  // Save form data on change
+  React.useEffect(() => {
+     const subscription = watch((value) => {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(`form_draft_${trade.trade_number}`, JSON.stringify(value));
+        }
+     });
+     return () => subscription.unsubscribe();
+  }, [trade.trade_number, watch]);
 
   // State for re-submission warning
   const [isWarningMode, setIsWarningMode] = useState(false);
@@ -87,6 +115,8 @@ export const BookingForm: React.FC<BookingFormProps> = ({ trade, options }) => {
       } else {
         // Success
         localStorage.setItem(storageKey, 'true');
+        // Clear draft
+        localStorage.removeItem(`form_draft_${trade.trade_number}`);
         const sub = submission as any;
         router.push(`/success?id=${sub.id}`);
       }
