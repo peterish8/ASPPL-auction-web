@@ -31,8 +31,8 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   return (
     <div className="min-h-screen bg-slate-950">
       <Header />
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-8 lg:py-16">
-        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] px-4 sm:px-6">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-4 lg:py-16">
+        <div className="flex flex-col items-center justify-start pt-8 lg:pt-0 lg:justify-center lg:min-h-[600px] px-4 sm:px-6">
           
           {/* Success Header Lockup */}
           <div className="flex flex-row lg:flex-col items-center gap-6 lg:gap-8 mb-8 lg:mb-12 w-full max-w-md lg:max-w-none justify-center lg:justify-center">
