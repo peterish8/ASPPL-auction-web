@@ -68,15 +68,21 @@ export const BookingForm: React.FC<BookingFormProps> = ({ trade, options }) => {
   const [isWarningMode, setIsWarningMode] = useState(false);
 
   const onSubmit = async (data: SubmissionSchema) => {
-    // Check if user has already submitted for this trade (Local Check)
-    const storageKey = `submitted_${trade.trade_number}`;
-    const hasSubmitted = typeof window !== 'undefined' ? localStorage.getItem(storageKey) : false;
+    // Smart Duplicate Check
+    const historyKey = `submission_history_${trade.trade_number}`;
+    let history: { phone: string; name: string }[] = [];
+    try {
+        const stored = localStorage.getItem(historyKey);
+        if (stored) history = JSON.parse(stored);
+    } catch (e) { console.error("History parse check failed", e); }
 
-    // If submitted and not yet acknowledged warning
-    if (hasSubmitted && !isWarningMode) {
+    const isDuplicate = history.some(item => 
+        item.phone === data.phone_number || item.name.trim().toLowerCase() === data.name.trim().toLowerCase()
+    );
+
+    // If duplicate found and not yet acknowledged
+    if (isDuplicate && !isWarningMode) {
         setIsWarningMode(true);
-        // Scroll to button or ensure visibility?
-        // Usually button label change is enough
         return;
     }
 
@@ -103,20 +109,21 @@ export const BookingForm: React.FC<BookingFormProps> = ({ trade, options }) => {
 
       if (error) {
          // Even if we allow duplicates, handle unexpected errors
-         // If constraint still exists, it will throw 23505
         if (error.code === '23505') { 
-            // Fallback if SQL script wasn't run: Show error but maybe different text?
-            // "You have already submitted." 
-            // The user wanted to ALLOW it, so this error shouldn't happen if they run the script.
             setSubmitError("System limit: Only one submission allowed per phone number.");
         } else {
             throw error;
         }
       } else {
-        // Success
-        localStorage.setItem(storageKey, 'true');
+        // Success: Update History
+        const newEntry = { phone: data.phone_number, name: data.name };
+        // Avoid duplicates in history array itself?
+        history.push(newEntry);
+        localStorage.setItem(historyKey, JSON.stringify(history));
+        
         // Clear draft
         localStorage.removeItem(`form_draft_${trade.trade_number}`);
+        
         const sub = submission as any;
         router.push(`/success?id=${sub.id}`);
       }
