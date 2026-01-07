@@ -83,8 +83,8 @@ export default async function Home() {
     <div className="min-h-screen bg-slate-950 pb-20">
       <Header tradeNumber={trade.trade_number} tradeDate={trade.trade_date} />
       
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-20">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-6 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 lg:gap-20">
           {/* Form Card */}
           <BookingForm trade={trade} options={options} />
           
