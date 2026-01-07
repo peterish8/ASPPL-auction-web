@@ -21,6 +21,21 @@ interface BookingFormProps {
   };
 }
 
+export const BookingForm: React.FC<BookingFormProps> = ({ trade, options }) => {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<SubmissionSchema>({
+    resolver: zodResolver(submissionSchema) as any,
+    mode: "onChange"
+  });
+
   // State for re-submission warning
   const [isWarningMode, setIsWarningMode] = useState(false);
 
