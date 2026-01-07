@@ -85,11 +85,15 @@ export default async function Home() {
       
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-6 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 lg:gap-20">
-          {/* Form Card */}
-          <BookingForm trade={trade} options={options} />
-          
-          {/* Schedule Card */}
-          <PoolingSchedule locations={locations} />
+          {/* Schedule Card - First on Mobile */}
+          <div className="order-1 lg:order-2">
+            <PoolingSchedule locations={locations} />
+          </div>
+
+          {/* Form Card - Second on Mobile */}
+          <div className="order-2 lg:order-1">
+             <BookingForm trade={trade} options={options} />
+          </div>
         </div>
       </div>
     </div>
