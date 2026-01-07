@@ -3,9 +3,10 @@ import { cn } from '@/lib/utils';
 
 interface SubmitButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
+  isWarning?: boolean;
 }
 
-export const SubmitButton: React.FC<SubmitButtonProps> = ({ className, isLoading, disabled, ...props }) => {
+export const SubmitButton: React.FC<SubmitButtonProps> = ({ className, isLoading, isWarning, disabled, ...props }) => {
   return (
     <div className="mt-16 lg:mt-24 flex justify-center">
       <button
@@ -14,8 +15,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({ className, isLoading
         className={cn(
           "w-full max-w-md h-16 lg:h-20",
           "text-xl lg:text-2xl font-bold text-white",
-          "bg-linear-to-r from-emerald-600 to-emerald-500",
-          "hover:from-emerald-500 hover:to-emerald-400",
+          isWarning ? "bg-amber-600 hover:bg-amber-500" : "bg-linear-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400",
           "rounded-xl shadow-xl hover:shadow-2xl",
           "transform hover:scale-[1.02] active:scale-[0.98]",
           "transition-all duration-200",
@@ -33,6 +33,8 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({ className, isLoading
             </svg>
             <span>Processing...</span>
           </>
+        ) : isWarning ? (
+           "Confirm Duplicate Entry"
         ) : (
           "Submit Entry"
         )}
