@@ -1,65 +1,80 @@
-import Image from "next/image";
+import { Header } from '@/components/Header';
+import { BookingForm } from '@/components/BookingForm';
+import { PoolingSchedule } from '@/components/PoolingSchedule';
+import { supabase } from '@/lib/supabase';
+import { Trade, PoolingScheduleItem, DropdownItem } from '@/types/booking';
 
-export default function Home() {
+export const dynamic = 'force-dynamic';
+
+async function getTradeData() {
+  try {
+     // Fetch active trade
+     const { data: trade } = await supabase.from('trades').select('*').eq('is_active', true).maybeSingle();
+     
+     if (!trade) return { trade: null, locations: [], options: null };
+
+     // Fetch pooling schedule (new table name: pooling_schedule)
+     // Note: The user schema has 'trade_id' in pooling_schedule? The prompt says: "trade_id", "location", "pooling_date".
+     const { data: locations } = await supabase.from('pooling_schedule').select('*').eq('trade_id', trade.id).order('order_index');
+     
+     // Fetch all dropdowns (new table name: dropdowns)
+     const { data: allDropdowns } = await supabase.from('dropdowns').select('*').eq('is_active', true).order('order_index');
+
+     // Filter dropdowns by category
+     const details = allDropdowns?.filter((d: any) => d.category === 'details') || [];
+     const type = allDropdowns?.filter((d: any) => d.category === 'type') || [];
+     const depot = allDropdowns?.filter((d: any) => d.category === 'depot') || [];
+
+     return {
+        trade: trade as Trade,
+        locations: (locations || []) as PoolingScheduleItem[],
+        options: {
+            details: details as DropdownItem[],
+            type: type as DropdownItem[],
+            depot: depot as DropdownItem[],
+        }
+     };
+  } catch (e) {
+      console.error("Error fetching data", e);
+      return { trade: null, locations: [], options: null };
+  }
+}
+
+export default async function Home() {
+  const { trade, locations, options } = await getTradeData();
+
+  if (!trade || !options) {
+    return (
+        <div className="min-h-screen bg-slate-950 pb-20">
+          <Header /> 
+          <div className="flex flex-col items-center justify-center h-[50vh] px-4 text-center">
+              <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-6">
+                <svg className="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-slate-300 mb-2">No Active Trade</h2>
+              <p className="text-slate-400 max-w-sm">
+                  There is currently no active trade scheduled. Please check back later.
+              </p>
+          </div>
+        </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-slate-950 pb-20">
+      <Header tradeNumber={trade.trade_number} tradeDate={trade.trade_date} />
+      
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-12 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-20">
+          {/* Form Card */}
+          <BookingForm trade={trade} options={options} />
+          
+          {/* Schedule Card */}
+          <PoolingSchedule locations={locations} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
     </div>
   );
 }
