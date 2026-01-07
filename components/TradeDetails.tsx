@@ -1,5 +1,5 @@
 import React from 'react';
-import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import { UseFormRegister, FieldErrors, Control, Controller } from 'react-hook-form';
 import { SubmissionSchema } from '@/lib/validation';
 import { Input } from './ui/Input';
 import { Select } from './ui/Select';
@@ -7,6 +7,7 @@ import { DropdownItem } from '@/types/booking';
 
 interface TradeDetailsProps {
   register: UseFormRegister<SubmissionSchema>;
+  control: Control<SubmissionSchema>;
   errors: FieldErrors<SubmissionSchema>;
   options: {
     details: DropdownItem[];
@@ -15,7 +16,7 @@ interface TradeDetailsProps {
   };
 }
 
-export const TradeDetails: React.FC<TradeDetailsProps> = ({ register, errors, options }) => {
+export const TradeDetails: React.FC<TradeDetailsProps> = ({ register, control, errors, options }) => {
   return (
     <div className="mt-20 lg:mt-32">
         <div className="flex items-center gap-6 bg-slate-700/50 p-6 rounded-xl mb-10 border border-slate-600/50">
@@ -28,13 +29,20 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({ register, errors, op
         </div>
 
         <div className="space-y-8 lg:space-y-10">
-            <Select
-                label="Details"
-                options={options.details}
-                {...register("details")}
-                error={errors.details?.message}
-                required
-                placeholder="Select details..."
+            <Controller
+                name="details"
+                control={control}
+                render={({ field }) => (
+                    <Select
+                        label="Details"
+                        options={options.details}
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={errors.details?.message}
+                        required
+                        placeholder="Select details..."
+                    />
+                )}
             />
             
             <Input
@@ -49,22 +57,36 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({ register, errors, op
                 helperText="Whole numbers only"
             />
             
-            <Select
-                label="Type"
-                options={options.type}
-                {...register("type")}
-                error={errors.type?.message}
-                required
-                placeholder="Select type..."
+            <Controller
+                name="type"
+                control={control}
+                render={({ field }) => (
+                    <Select
+                        label="Type"
+                        options={options.type}
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={errors.type?.message}
+                        required
+                        placeholder="Select type..."
+                    />
+                )}
             />
             
-            <Select
-                label="Depot"
-                options={options.depot}
-                {...register("depot")}
-                error={errors.depot?.message}
-                required
-                placeholder="Select depot..."
+            <Controller
+                name="depot"
+                control={control}
+                render={({ field }) => (
+                    <Select
+                        label="Depot"
+                        options={options.depot}
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={errors.depot?.message}
+                        required
+                        placeholder="Select depot..."
+                    />
+                )}
             />
         </div>
     </div>

@@ -28,6 +28,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ trade, options }) => {
   
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<SubmissionSchema>({
@@ -80,7 +81,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ trade, options }) => {
     <div className="bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-800 p-8 lg:p-16">
        <form onSubmit={handleSubmit(onSubmit)}>
           <PersonalInfo register={register} errors={errors} />
-          <TradeDetails register={register} errors={errors} options={options} />
+          <TradeDetails register={register} control={control} errors={errors} options={options} />
           
           {submitError && (
              <div className="mt-8 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 text-red-200">

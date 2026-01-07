@@ -8,17 +8,30 @@ export const dynamic = 'force-dynamic';
 
 async function getTradeData() {
   try {
-     // Fetch active trade
-     const { data: trade } = await supabase.from('trades').select('*').eq('is_active', true).maybeSingle();
+     const { data: trade, error: tradeError } = await supabase
+       .from('trades')
+       .select('*')
+       .eq('is_active', true)
+       .order('created_at', { ascending: false })
+       .limit(1)
+       .maybeSingle();
      
-     if (!trade) return { trade: null, locations: [], options: null };
+     if (tradeError) {
+         console.error("Supabase Trade Error:", JSON.stringify(tradeError, null, 2));
+         return { trade: null, locations: [], options: null, error: tradeError.message || JSON.stringify(tradeError) };
+     }
 
-     // Fetch pooling schedule (new table name: pooling_schedule)
-     // Note: The user schema has 'trade_id' in pooling_schedule? The prompt says: "trade_id", "location", "pooling_date".
-     const { data: locations } = await supabase.from('pooling_schedule').select('*').eq('trade_id', trade.id).order('order_index');
-     
-     // Fetch all dropdowns (new table name: dropdowns)
-     const { data: allDropdowns } = await supabase.from('dropdowns').select('*').eq('is_active', true).order('order_index');
+     if (!trade) {
+         console.log("No active trade found");
+         return { trade: null, locations: [], options: null, error: "No active trade found in database." };
+     }
+
+     // ... (rest of fetching)
+     const { data: locations, error: locError } = await supabase.from('pooling_schedule').select('*').eq('trade_id', trade.id).order('order_index');
+     if (locError) console.error("Location Error:", locError);
+
+     const { data: allDropdowns, error: dropError } = await supabase.from('dropdowns').select('*').eq('is_active', true).order('order_index');
+     if (dropError) console.error("Dropdown Error:", dropError);
 
      // Filter dropdowns by category
      const details = allDropdowns?.filter((d: any) => d.category === 'details') || [];
@@ -32,35 +45,39 @@ async function getTradeData() {
             details: details as DropdownItem[],
             type: type as DropdownItem[],
             depot: depot as DropdownItem[],
-        }
+        },
+        error: null
      };
-  } catch (e) {
-      console.error("Error fetching data", e);
-      return { trade: null, locations: [], options: null };
+  } catch (e: any) {
+      console.error("Unexpected Error:", e);
+      return { trade: null, locations: [], options: null, error: e.message || "Unexpected error" };
   }
 }
 
 export default async function Home() {
-  const { trade, locations, options } = await getTradeData();
+  const { trade, locations, options, error } = await getTradeData();
 
   if (!trade || !options) {
     return (
         <div className="min-h-screen bg-slate-950 pb-20">
           <Header /> 
           <div className="flex flex-col items-center justify-center h-[50vh] px-4 text-center">
-              <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-6">
-                <svg className="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
+              {/* ... Icon ... */}
               <h2 className="text-2xl font-bold text-slate-300 mb-2">No Active Trade</h2>
-              <p className="text-slate-400 max-w-sm">
+              <p className="text-slate-400 max-w-sm mb-4">
                   There is currently no active trade scheduled. Please check back later.
               </p>
+              {error && (
+                <div className="p-4 bg-red-900/20 border border-red-900/50 rounded text-red-400 text-sm font-mono mt-4">
+                    <p className="font-bold">Error Details:</p>
+                    {error}
+                </div>
+              )}
           </div>
         </div>
     );
   }
+  // ...
 
   return (
     <div className="min-h-screen bg-slate-950 pb-20">
