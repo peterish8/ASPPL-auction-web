@@ -48,13 +48,6 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
             Your trade booking request has been submitted successfully.
           </p>
           
-          {/* Reference Info */}
-          <div className="bg-slate-800/50 rounded-xl p-8 mb-8 border border-slate-700/50 w-full max-w-md">
-            <p className="text-sm text-slate-400 mb-2 font-medium uppercase tracking-wider">Reference Number</p>
-            <p className="text-3xl font-mono font-bold text-emerald-400 tracking-wider">
-              TB-{submissionId}
-            </p>
-          </div>
 
           {/* Next Opening Date Feature */}
           <div className="bg-gradient-to-br from-indigo-900/40 to-slate-900/40 rounded-xl p-8 mb-8 border border-indigo-500/30 w-full max-w-md backdrop-blur-md">
