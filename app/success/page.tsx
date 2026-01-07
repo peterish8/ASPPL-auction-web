@@ -13,7 +13,20 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
     .eq('key', 'next_opening_date')
     .maybeSingle();
 
-  const nextDate = setting?.value || "To Be Announced";
+  let nextDate = "To Be Announced";
+  if (setting?.value) {
+    const date = new Date(setting.value);
+    if (!isNaN(date.getTime())) {
+      // Format: 20 January 2026
+      nextDate = new Intl.DateTimeFormat('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }).format(date);
+    } else {
+      nextDate = setting.value;
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-950">
