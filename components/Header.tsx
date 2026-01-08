@@ -13,9 +13,9 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-linear-to-r from-emerald-900 to-emerald-800 px-5 py-5 lg:px-16 lg:py-6 shadow-xl relative z-10">
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-row items-center gap-4 lg:gap-6 mb-4 lg:mb-5">
+        <div className="flex flex-row items-start gap-4 lg:gap-6 mb-4 lg:mb-5">
           {/* Logo */}
-          <div className="relative w-10 h-10 lg:w-14 lg:h-14 shrink-0 bg-white rounded-xl lg:rounded-2xl flex items-center justify-center overflow-hidden border border-white/10 shadow-md">
+          <div className="relative w-24 h-24 lg:w-28 lg:h-28 shrink-0 bg-white rounded-xl lg:rounded-2xl flex items-center justify-center overflow-hidden border border-white/10 shadow-md">
              <Image 
                src="/logo.png" 
                alt="ASPPL Logo" 
