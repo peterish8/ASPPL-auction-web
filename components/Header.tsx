@@ -67,14 +67,14 @@ export const Header: React.FC<HeaderProps> = ({
 
 
       <div className="max-w-[1400px] mx-auto relative z-10">
-        <div className="flex flex-row items-start gap-4 lg:gap-6 mb-4 lg:mb-5">
+        <div className="flex flex-row items-start gap-5 lg:gap-8 mb-4 lg:mb-5">
           {/* Logo */}
-          <div className="relative w-24 h-24 lg:w-28 lg:h-28 shrink-0 bg-white rounded-2xl flex items-center justify-center overflow-hidden border-4 border-white/20 shadow-xl">
+          <div className="relative w-28 h-28 lg:w-32 lg:h-32 shrink-0 bg-white rounded-2xl flex items-center justify-center overflow-hidden border-4 border-white/20 shadow-xl">
              <Image 
                src="/logo.png" 
                alt="ASPPL Logo" 
                fill
-               className="object-contain p-1.5"
+               className="object-contain p-0.5 scale-110"
                priority
              />
           </div>
