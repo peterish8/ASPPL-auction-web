@@ -30,7 +30,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
                 Submission Successful!
               </h2>
               <p className="text-sm lg:text-xl text-slate-400 max-w-xs lg:max-w-md">
-                Your entry is updated, our depot manager will reach out to you for any clarification
+                Your entry is updated successfully , our depot manager will get back to you for any clarification
               </p>
               
 
