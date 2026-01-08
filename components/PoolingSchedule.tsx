@@ -56,12 +56,6 @@ export const PoolingSchedule: React.FC<PoolingScheduleProps> = ({ locations }) =
                             bg-slate-800/50 rounded-xl border border-slate-700
                             hover:border-emerald-600/50 transition-colors duration-200">
               
-              {/* Badge */}
-              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-slate-700 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                <span className="text-base lg:text-lg font-bold text-emerald-400">
-                  {String.fromCharCode(65 + index)} {/* A, B, C... */}
-                </span>
-              </div>
               
               {/* Content: Location + Date */}
               <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-x-4 gap-y-1 flex-1 min-w-0">
