@@ -26,9 +26,15 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           
           {/* Title */}
-          <h1 className="text-xl lg:text-3xl font-bold text-white leading-tight">
-            Amazing Spice Park Private Limited
-          </h1>
+          {/* Title & Subtitle */}
+          <div className="flex flex-col">
+            <h1 className="text-2xl lg:text-4xl font-bold text-white leading-tight">
+              Amazing Spice Park <br className="block sm:hidden" /> Private Limited
+            </h1>
+            <p className="text-emerald-200 text-sm lg:text-xl font-medium mt-1 uppercase tracking-wide">
+              Trade Booking System
+            </p>
+          </div>
         </div>
         
         {tradeNumber && tradeDate && (

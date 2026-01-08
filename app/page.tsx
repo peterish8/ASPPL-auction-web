@@ -101,19 +101,15 @@ export default async function Home() {
               <div className="w-16 h-px bg-slate-700 mx-auto mb-6"></div>
               
               {/* Signature */}
-              <p className="text-sm text-slate-500 italic">
-                Thank you for your patience — Team ASPPL
-              </p>
+              {/* Signature */}
+              <div className="text-sm text-slate-500 italic flex flex-col gap-1">
+                <span>Thank you for your patience</span>
+                <span className="font-semibold text-slate-400">— Team ASPPL</span>
+              </div>
               
             </div>
             
-            {/* Debug Error (only in dev) */}
-            {error && (
-              <div className="mt-6 p-4 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-xs font-mono max-w-lg w-full">
-                  <p className="font-bold mb-1">Debug Info:</p>
-                  {error}
-              </div>
-            )}
+            {/* Debug Error removed as per request */}
             
           </div>
         </div>
