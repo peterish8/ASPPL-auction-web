@@ -1,4 +1,5 @@
 import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 import { BookingForm } from '@/components/BookingForm';
 import { PoolingSchedule } from '@/components/PoolingSchedule';
 import { supabase } from '@/lib/supabase';
@@ -64,9 +65,9 @@ export default async function Home() {
 
   if (!trade || !options) {
     return (
-        <div className="min-h-screen bg-slate-950">
+        <div className="flex flex-col min-h-screen bg-slate-950">
           <Header />
-          <div className="flex flex-col items-center justify-center min-h-[70vh] px-4">
+          <div className="grow flex flex-col items-center justify-center px-4 py-20 lg:py-32">
             
             {/* Premium Card Container */}
             <div className="max-w-lg w-full bg-linear-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 p-8 lg:p-12 text-center shadow-2xl">
@@ -101,7 +102,6 @@ export default async function Home() {
               <div className="w-16 h-px bg-slate-700 mx-auto mb-6"></div>
               
               {/* Signature */}
-              {/* Signature */}
               <div className="text-sm text-slate-500 italic flex flex-col gap-1">
                 <span>Thank you for your patience</span>
                 <span className="font-semibold text-slate-400">— Team ASPPL</span>
@@ -112,17 +112,18 @@ export default async function Home() {
             {/* Debug Error removed as per request */}
             
           </div>
+          <Footer />
         </div>
     );
   }
   // ...
 
   return (
-    <div className="min-h-screen bg-slate-950 pb-20">
+    <div className="flex flex-col min-h-screen bg-slate-950">
       <Header tradeNumber={trade.trade_number} tradeDate={trade.trade_date} />
       
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-6 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-6 lg:gap-20">
+      <div className="grow max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-12 py-16 lg:py-24 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-10 lg:gap-20">
           {/* Schedule Card - First on Mobile */}
           <div className="order-1 lg:order-2">
             <PoolingSchedule locations={locations} />
@@ -134,6 +135,7 @@ export default async function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
