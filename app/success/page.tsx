@@ -8,53 +8,6 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   // keeping this for potential future use or analytics
   const submissionId = params.id ? params.id.slice(0, 8).toUpperCase() : 'UNKNOWN';
 
-  // Fetch submission timestamp
-  let dateDisplay = null;
-  let dayDisplay = null;
-
-  try {
-     if (params.id) {
-         const { data, error } = await supabase
-            .from('submissions')
-            .select('created_at')
-            .eq('id', params.id)
-            .single();
-         
-         if (data?.created_at) {
-             const date = new Date(data.created_at);
-             // Convert to IST (UTC + 5:30)
-             const istOffset = 5.5 * 60 * 60 * 1000;
-             const istTime = new Date(date.getTime() + istOffset);
-             
-             const day = istTime.getUTCDate().toString().padStart(2, '0');
-             const month = (istTime.getUTCMonth() + 1).toString().padStart(2, '0');
-             const year = istTime.getUTCFullYear();
-             
-             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-             dayDisplay = days[istTime.getUTCDay()];
-             dateDisplay = `${day}-${month}-${year}`;
-         }
-     }
-  } catch (e) {
-      console.error("Date fetch error", e);
-  }
-  
-  // Fallback if no date found (optional, or just don't show)
-  if (!dateDisplay) {
-      const now = new Date();
-      // Calculate IST for now as fallback
-       const istOffset = 5.5 * 60 * 60 * 1000;
-       // now.getTime() is UTC. To represent IST components via getUTC methods:
-       const istTime = new Date(now.getTime() + istOffset);
-       
-       const day = istTime.getUTCDate().toString().padStart(2, '0');
-       const month = (istTime.getUTCMonth() + 1).toString().padStart(2, '0');
-       const year = istTime.getUTCFullYear();
-       const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-       
-       dateDisplay = `${day}-${month}-${year}`;
-       dayDisplay = days[istTime.getUTCDay()];
-  }
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
@@ -80,15 +33,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
                 Your entry is updated, our depot manager will reach out to you for any clarification
               </p>
               
-              {/* Date Display */}
-              <div className="mt-4 flex flex-wrap gap-3 lg:justify-center">
-                  <div className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium">
-                      📅 {dateDisplay}
-                  </div>
-                  <div className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium">
-                      🕒 {dayDisplay}
-                  </div>
-              </div>
+
             </div>
           </div>
           
