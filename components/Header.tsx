@@ -69,37 +69,53 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-[1400px] mx-auto relative z-10">
         <div className="flex flex-row items-start gap-4 lg:gap-6 mb-4 lg:mb-5">
           {/* Logo */}
-          <div className="relative w-24 h-24 lg:w-28 lg:h-28 shrink-0 bg-white rounded-xl lg:rounded-2xl flex items-center justify-center overflow-hidden border border-white/10 shadow-md">
+          <div className="relative w-24 h-24 lg:w-28 lg:h-28 shrink-0 bg-white rounded-2xl flex items-center justify-center overflow-hidden border-4 border-white/20 shadow-xl">
              <Image 
                src="/logo.png" 
                alt="ASPPL Logo" 
                fill
-               className="object-contain p-1"
+               className="object-contain p-1.5"
                priority
              />
           </div>
           
           {/* Title & Subtitle */}
-          <div className="flex flex-col pt-1">
+          <div className="flex flex-col pt-2 bg-transparent">
             <h1 className="text-2xl lg:text-4xl font-bold text-[#E6FFF6] leading-tight drop-shadow-sm">
               Amazing Spice Park <br className="block sm:hidden" /> Private Limited
             </h1>
-            <p className="text-[#2EE6A6] text-sm lg:text-xl font-medium mt-1.5 uppercase tracking-wide opacity-90">
+            <p className="text-[#2EE6A6] text-sm lg:text-xl font-medium mt-1 uppercase tracking-wide opacity-90">
               Trade Booking System
             </p>
+            
+            {/* Unified Trade Info Container */}
+            {tradeNumber && tradeDate && (
+              <div className="hidden lg:flex w-fit mt-4 bg-[#041d18]/40 backdrop-blur-md border border-[#2EE6A6]/30 rounded-2xl p-1.5 items-center shadow-lg">
+                 <div className="px-5 py-2 rounded-xl bg-[#041d18]/60 flex items-center gap-3">
+                    <span className="text-[#9EDAC6] text-xs font-bold uppercase tracking-wider">Trade Number:</span>
+                    <span className="text-white text-base font-bold tracking-wide">{tradeNumber}</span>
+                 </div>
+                 <div className="w-px h-8 bg-[#2EE6A6]/30 mx-1" />
+                 <div className="px-5 py-2 rounded-xl bg-[#041d18]/60 flex items-center gap-3">
+                    <span className="text-[#9EDAC6] text-xs font-bold uppercase tracking-wider">Trade Date:</span>
+                    <span className="text-white text-base font-bold tracking-wide">{displayDate}</span>
+                 </div>
+              </div>
+            )}
           </div>
         </div>
         
+        {/* Mobile Separate Container (visible only on small screens) */}
         {tradeNumber && tradeDate && (
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
-            <div className="bg-[#041d18]/60 backdrop-blur-md border border-[#2EE6A6]/20 px-4 py-2 rounded-lg flex items-center gap-3 shadow-lg group hover:border-[#2EE6A6]/40 transition-colors">
-              <span className="text-[#9EDAC6] text-xs font-bold uppercase tracking-wider">Trade Number:</span>
-              <span className="text-[#E6FFF6] text-sm lg:text-base font-bold tracking-wide group-hover:text-white transition-colors">{tradeNumber}</span>
-            </div>
-            <div className="bg-[#041d18]/60 backdrop-blur-md border border-[#2EE6A6]/20 px-4 py-2 rounded-lg flex items-center gap-3 shadow-lg group hover:border-[#2EE6A6]/40 transition-colors">
-              <span className="text-[#9EDAC6] text-xs font-bold uppercase tracking-wider">Trade Date:</span>
-              <span className="text-[#E6FFF6] text-sm lg:text-base font-bold tracking-wide group-hover:text-white transition-colors">{displayDate}</span>
-            </div>
+          <div className="lg:hidden flex flex-col gap-2">
+             <div className="bg-[#041d18]/60 backdrop-blur-md border border-[#2EE6A6]/20 px-4 py-3 rounded-lg flex items-center justify-between shadow-lg">
+                <span className="text-[#9EDAC6] text-xs font-bold uppercase tracking-wider">Trade Number:</span>
+                <span className="text-white text-sm font-bold tracking-wide">{tradeNumber}</span>
+             </div>
+             <div className="bg-[#041d18]/60 backdrop-blur-md border border-[#2EE6A6]/20 px-4 py-3 rounded-lg flex items-center justify-between shadow-lg">
+                <span className="text-[#9EDAC6] text-xs font-bold uppercase tracking-wider">Trade Date:</span>
+                <span className="text-white text-sm font-bold tracking-wide">{displayDate}</span>
+             </div>
           </div>
         )}
       </div>
