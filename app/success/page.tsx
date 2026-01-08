@@ -77,7 +77,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
                 Submission Successful!
               </h2>
               <p className="text-sm lg:text-xl text-slate-400 max-w-xs lg:max-w-md">
-                Your trade booking request has been submitted successfully.
+                Your entry is updated, our depot manager will reach out to you for any clarification
               </p>
               
               {/* Date Display */}
