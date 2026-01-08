@@ -29,26 +29,26 @@ export const PoolingSchedule: React.FC<PoolingScheduleProps> = ({ locations }) =
         <div className="space-y-6">
           {locations.map((location, index) => (
             <div key={location.id || index} 
-                 className="flex items-center justify-between p-5 lg:p-6 
+                 className="flex items-start gap-3 p-4 lg:p-5 
                             bg-slate-800/50 rounded-xl border border-slate-700
                             hover:border-emerald-600/50 transition-colors duration-200">
               
-              {/* Location Name */}
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-slate-700 rounded-lg flex items-center justify-center shrink-0">
-                  <span className="text-lg font-bold text-emerald-400">
-                    {String.fromCharCode(65 + index)} {/* A, B, C... */}
-                  </span>
-                </div>
-                <span className="text-lg lg:text-xl font-semibold text-slate-200">
-                  {location.location}
+              {/* Badge */}
+              <div className="w-8 h-8 lg:w-10 lg:h-10 bg-slate-700 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                <span className="text-base lg:text-lg font-bold text-emerald-400">
+                  {String.fromCharCode(65 + index)} {/* A, B, C... */}
                 </span>
               </div>
               
-              {/* Date */}
-              <span className="text-base lg:text-lg font-medium text-emerald-400 whitespace-nowrap">
-                {location.pooling_date}
-              </span>
+              {/* Content: Location + Date */}
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 flex-1 min-w-0">
+                <span className="text-base lg:text-lg font-semibold text-slate-200">
+                  {location.location}
+                </span>
+                <span className="text-sm lg:text-base font-medium text-emerald-400">
+                  {location.pooling_date}
+                </span>
+              </div>
             </div>
           ))}
           {locations.length === 0 && (

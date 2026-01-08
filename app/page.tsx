@@ -26,8 +26,13 @@ async function getTradeData() {
          return { trade: null, locations: [], options: null, error: "No active trade found in database." };
      }
 
-     // ... (rest of fetching)
-     const { data: locations, error: locError } = await supabase.from('pooling_schedule').select('*').eq('trade_id', trade.id).order('order_index');
+     // Fetch pooling schedule
+     const { data: locations, error: locError } = await supabase
+        .from('pooling_schedule')
+        .select('*')
+        .eq('trade_id', trade.id)
+        .order('order_index', { ascending: true });
+        
      if (locError) console.error("Location Error:", locError);
 
      const { data: allDropdowns, error: dropError } = await supabase.from('dropdowns').select('*').eq('is_active', true).order('order_index');
@@ -59,20 +64,57 @@ export default async function Home() {
 
   if (!trade || !options) {
     return (
-        <div className="min-h-screen bg-slate-950 pb-20">
-          <Header /> 
-          <div className="flex flex-col items-center justify-center h-[50vh] px-4 text-center">
-              {/* ... Icon ... */}
-              <h2 className="text-2xl font-bold text-slate-300 mb-2">No Active Trade</h2>
-              <p className="text-slate-400 max-w-sm mb-4">
-                  There is currently no active trade scheduled. Please check back later.
-              </p>
-              {error && (
-                <div className="p-4 bg-red-900/20 border border-red-900/50 rounded text-red-400 text-sm font-mono mt-4">
-                    <p className="font-bold">Error Details:</p>
-                    {error}
+        <div className="min-h-screen bg-slate-950">
+          <Header />
+          <div className="flex flex-col items-center justify-center min-h-[70vh] px-4">
+            
+            {/* Premium Card Container */}
+            <div className="max-w-lg w-full bg-linear-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 p-8 lg:p-12 text-center shadow-2xl">
+              
+              {/* Header Row: Icon Left, Title Right */}
+              <div className="flex items-center gap-4 mb-6">
+                {/* Animated Icon */}
+                <div className="w-14 h-14 lg:w-16 lg:h-16 bg-amber-500/20 rounded-full flex items-center justify-center animate-pulse shrink-0">
+                  <svg className="w-7 h-7 lg:w-8 lg:h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
                 </div>
-              )}
+                
+                {/* Title */}
+                <h1 className="text-xl lg:text-2xl font-bold text-white text-left">
+                  Welcome to ASPPL Trade Booking
+                </h1>
+              </div>
+              
+              {/* Status Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full mb-6">
+                <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+                <span className="text-sm font-semibold text-amber-400 uppercase tracking-wider">No Active Trade</span>
+              </div>
+              
+              {/* Message */}
+              <p className="text-base lg:text-lg text-slate-400 leading-relaxed mb-8 max-w-md mx-auto">
+                There are no trades scheduled at this time. Please check back once you receive a notification from our team about the next booking window.
+              </p>
+              
+              {/* Divider */}
+              <div className="w-16 h-px bg-slate-700 mx-auto mb-6"></div>
+              
+              {/* Signature */}
+              <p className="text-sm text-slate-500 italic">
+                Thank you for your patience — Team ASPPL
+              </p>
+              
+            </div>
+            
+            {/* Debug Error (only in dev) */}
+            {error && (
+              <div className="mt-6 p-4 bg-red-900/20 border border-red-900/50 rounded-lg text-red-400 text-xs font-mono max-w-lg w-full">
+                  <p className="font-bold mb-1">Debug Info:</p>
+                  {error}
+              </div>
+            )}
+            
           </div>
         </div>
     );
