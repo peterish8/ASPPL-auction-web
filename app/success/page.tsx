@@ -1,11 +1,60 @@
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { supabase } from '@/lib/supabase';
 
 export default async function SuccessPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
   const params = await searchParams;
   // keeping this for potential future use or analytics
   const submissionId = params.id ? params.id.slice(0, 8).toUpperCase() : 'UNKNOWN';
+
+  // Fetch submission timestamp
+  let dateDisplay = null;
+  let dayDisplay = null;
+
+  try {
+     if (params.id) {
+         const { data, error } = await supabase
+            .from('submissions')
+            .select('created_at')
+            .eq('id', params.id)
+            .single();
+         
+         if (data?.created_at) {
+             const date = new Date(data.created_at);
+             // Convert to IST (UTC + 5:30)
+             const istOffset = 5.5 * 60 * 60 * 1000;
+             const istTime = new Date(date.getTime() + istOffset);
+             
+             const day = istTime.getUTCDate().toString().padStart(2, '0');
+             const month = (istTime.getUTCMonth() + 1).toString().padStart(2, '0');
+             const year = istTime.getUTCFullYear();
+             
+             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+             dayDisplay = days[istTime.getUTCDay()];
+             dateDisplay = `${day}-${month}-${year}`;
+         }
+     }
+  } catch (e) {
+      console.error("Date fetch error", e);
+  }
+  
+  // Fallback if no date found (optional, or just don't show)
+  if (!dateDisplay) {
+      const now = new Date();
+      // Calculate IST for now as fallback
+       const istOffset = 5.5 * 60 * 60 * 1000;
+       // now.getTime() is UTC. To represent IST components via getUTC methods:
+       const istTime = new Date(now.getTime() + istOffset);
+       
+       const day = istTime.getUTCDate().toString().padStart(2, '0');
+       const month = (istTime.getUTCMonth() + 1).toString().padStart(2, '0');
+       const year = istTime.getUTCFullYear();
+       const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+       
+       dateDisplay = `${day}-${month}-${year}`;
+       dayDisplay = days[istTime.getUTCDay()];
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
@@ -30,6 +79,16 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
               <p className="text-sm lg:text-xl text-slate-400 max-w-xs lg:max-w-md">
                 Your trade booking request has been submitted successfully.
               </p>
+              
+              {/* Date Display */}
+              <div className="mt-4 flex flex-wrap gap-3 lg:justify-center">
+                  <div className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium">
+                      📅 {dateDisplay}
+                  </div>
+                  <div className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-sm font-medium">
+                      🕒 {dayDisplay}
+                  </div>
+              </div>
             </div>
           </div>
           
@@ -39,9 +98,11 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
             <svg className="w-5 h-5 text-blue-400 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
-            <p className="text-sm text-blue-300 text-left leading-relaxed">
-              You have completed your submission for this week.
-            </p>
+            <div className="flex flex-col gap-1">
+                <p className="text-sm text-blue-300 text-left leading-relaxed">
+                You have completed your submission for this week.
+                </p>
+            </div>
           </div>
           
           <div className="mt-8 lg:mt-12">

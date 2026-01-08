@@ -6,6 +6,29 @@ interface PoolingScheduleProps {
 }
 
 export const PoolingSchedule: React.FC<PoolingScheduleProps> = ({ locations }) => {
+  // Format date helper
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return null;
+    try {
+        // Parse YYYY-MM-DD
+        const parts = dateString.split('-');
+        if (parts.length === 3) {
+            const year = parseInt(parts[0]);
+            const month = parseInt(parts[1]) - 1; 
+            const day = parseInt(parts[2]);
+            
+            const date = new Date(year, month, day);
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayName = days[date.getDay()];
+            
+            return `${parts[2]}-${parts[1]}-${parts[0]} | ${dayName}`;
+        }
+        return dateString;
+    } catch (e) {
+        return dateString;
+    }
+  };
+
   return (
     <div className="w-full lg:sticky lg:top-8 lg:h-fit">
       <div className="bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-800 p-6 lg:p-12">
@@ -41,12 +64,12 @@ export const PoolingSchedule: React.FC<PoolingScheduleProps> = ({ locations }) =
               </div>
               
               {/* Content: Location + Date */}
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 flex-1 min-w-0">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-x-4 gap-y-1 flex-1 min-w-0">
                 <span className="text-base lg:text-lg font-semibold text-slate-200">
                   {location.location}
                 </span>
-                <span className="text-sm lg:text-base font-medium text-emerald-400">
-                  {location.pooling_date}
+                <span className="text-sm lg:text-base font-medium text-emerald-400 whitespace-nowrap">
+                  {formatDate(location.pooling_date)}
                 </span>
               </div>
             </div>

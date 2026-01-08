@@ -10,6 +10,30 @@ export const Header: React.FC<HeaderProps> = ({
   tradeNumber,
   tradeDate
 }) => {
+  // Format date helper
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return null;
+    try {
+        // Parse YYYY-MM-DD to avoid timezone issues with Date() constructor
+        const parts = dateString.split('-');
+        if (parts.length === 3) {
+            const year = parseInt(parts[0]);
+            const month = parseInt(parts[1]) - 1; 
+            const day = parseInt(parts[2]);
+            
+            const date = new Date(year, month, day);
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayName = days[date.getDay()];
+            
+            return `${parts[2]}-${parts[1]}-${parts[0]}   |   ${dayName}`;
+        }
+        return dateString;
+    } catch (e) {
+        return dateString;
+    }
+  };
+
+  const displayDate = formatDate(tradeDate);
   return (
     <header 
       className="relative z-50 px-5 py-5 lg:px-16 lg:py-6 overflow-hidden shadow-2xl"
@@ -74,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
             <div className="bg-[#041d18]/60 backdrop-blur-md border border-[#2EE6A6]/20 px-4 py-2 rounded-lg flex items-center gap-3 shadow-lg group hover:border-[#2EE6A6]/40 transition-colors">
               <span className="text-[#9EDAC6] text-xs font-bold uppercase tracking-wider">Trade Date:</span>
-              <span className="text-[#E6FFF6] text-sm lg:text-base font-bold tracking-wide group-hover:text-white transition-colors">{tradeDate}</span>
+              <span className="text-[#E6FFF6] text-sm lg:text-base font-bold tracking-wide group-hover:text-white transition-colors">{displayDate}</span>
             </div>
           </div>
         )}

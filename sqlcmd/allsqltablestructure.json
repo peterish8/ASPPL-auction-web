@@ -1,0 +1,407 @@
+[
+  {
+    "table_name": "admin_settings",
+    "columns": [
+      {
+        "type": "text",
+        "column": "description",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "key",
+        "default": null,
+        "nullable": "NO"
+      },
+      {
+        "type": "text",
+        "column": "value",
+        "default": null,
+        "nullable": "NO"
+      },
+      {
+        "type": "timestamp with time zone",
+        "column": "updated_at",
+        "default": "timezone('utc'::text, now())",
+        "nullable": "YES"
+      }
+    ],
+    "policies": [
+      {
+        "roles": [
+          "public"
+        ],
+        "command": "ALL",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Admins can manage settings"
+      },
+      {
+        "roles": [
+          "public"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Public can view settings"
+      }
+    ]
+  },
+  {
+    "table_name": "dropdowns",
+    "columns": [
+      {
+        "type": "boolean",
+        "column": "is_active",
+        "default": "true",
+        "nullable": "YES"
+      },
+      {
+        "type": "integer",
+        "column": "order_index",
+        "default": "0",
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "category",
+        "default": null,
+        "nullable": "NO"
+      },
+      {
+        "type": "text",
+        "column": "label",
+        "default": null,
+        "nullable": "NO"
+      },
+      {
+        "type": "timestamp with time zone",
+        "column": "created_at",
+        "default": "now()",
+        "nullable": "YES"
+      },
+      {
+        "type": "uuid",
+        "column": "id",
+        "default": "uuid_generate_v4()",
+        "nullable": "NO"
+      }
+    ],
+    "policies": [
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "DELETE",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated delete dropdowns"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "INSERT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated insert dropdowns"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated read dropdowns"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "UPDATE",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated update dropdowns"
+      },
+      {
+        "roles": [
+          "anon"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Public can read active dropdowns"
+      },
+      {
+        "roles": [
+          "service_role"
+        ],
+        "command": "ALL",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Service role full access to dropdowns"
+      }
+    ]
+  },
+  {
+    "table_name": "pooling_schedule",
+    "columns": [
+      {
+        "type": "integer",
+        "column": "order_index",
+        "default": "0",
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "location",
+        "default": null,
+        "nullable": "NO"
+      },
+      {
+        "type": "text",
+        "column": "pooling_date",
+        "default": null,
+        "nullable": "NO"
+      },
+      {
+        "type": "timestamp with time zone",
+        "column": "created_at",
+        "default": "now()",
+        "nullable": "YES"
+      },
+      {
+        "type": "uuid",
+        "column": "id",
+        "default": "uuid_generate_v4()",
+        "nullable": "NO"
+      },
+      {
+        "type": "uuid",
+        "column": "trade_id",
+        "default": null,
+        "nullable": "NO"
+      }
+    ],
+    "policies": [
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "DELETE",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated delete pooling"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "INSERT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated insert pooling"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated read pooling"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "UPDATE",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated update pooling"
+      },
+      {
+        "roles": [
+          "anon"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Public can read pooling schedules"
+      },
+      {
+        "roles": [
+          "public"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Public can view pooling schedule"
+      },
+      {
+        "roles": [
+          "service_role"
+        ],
+        "command": "ALL",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Service role full access to pooling_schedule"
+      }
+    ]
+  },
+  {
+    "table_name": "submissions",
+    "columns": [
+      {
+        "type": "integer",
+        "column": "weight",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "depot",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "details",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "device_fingerprint",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "name",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "phone_number",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "trade_number",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "type",
+        "default": null,
+        "nullable": "YES"
+      },
+      {
+        "type": "timestamp without time zone",
+        "column": "submitted_at",
+        "default": "(now() AT TIME ZONE 'Asia/Kolkata'::text)",
+        "nullable": "YES"
+      },
+      {
+        "type": "uuid",
+        "column": "id",
+        "default": "uuid_generate_v4()",
+        "nullable": "NO"
+      }
+    ],
+    "policies": [
+      {
+        "roles": [
+          "public"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Public can check own submission"
+      },
+      {
+        "roles": [
+          "public"
+        ],
+        "command": "INSERT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Public can submit forms"
+      }
+    ]
+  },
+  {
+    "table_name": "trades",
+    "columns": [
+      {
+        "type": "boolean",
+        "column": "is_active",
+        "default": "false",
+        "nullable": "YES"
+      },
+      {
+        "type": "text",
+        "column": "trade_date",
+        "default": null,
+        "nullable": "NO"
+      },
+      {
+        "type": "text",
+        "column": "trade_number",
+        "default": null,
+        "nullable": "NO"
+      },
+      {
+        "type": "timestamp with time zone",
+        "column": "created_at",
+        "default": "now()",
+        "nullable": "YES"
+      },
+      {
+        "type": "uuid",
+        "column": "id",
+        "default": "uuid_generate_v4()",
+        "nullable": "NO"
+      }
+    ],
+    "policies": [
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "DELETE",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated users to delete trades"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "INSERT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated users to insert trades"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated users to read trades"
+      },
+      {
+        "roles": [
+          "authenticated"
+        ],
+        "command": "UPDATE",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Allow authenticated users to update trades"
+      },
+      {
+        "roles": [
+          "anon"
+        ],
+        "command": "SELECT",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Public can read active trades"
+      },
+      {
+        "roles": [
+          "service_role"
+        ],
+        "command": "ALL",
+        "permissive": "PERMISSIVE",
+        "policy_name": "Service role full access to trades"
+      }
+    ]
+  }
+]

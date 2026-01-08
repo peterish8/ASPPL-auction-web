@@ -25,12 +25,9 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ register, errors }) 
                 label="Phone Number"
                 {...register("phone_number")}
                 error={errors.phone_number?.message}
-                placeholder="Enter 10-digit phone number"
+                placeholder="Enter your phone number"
                 type="tel"
-                inputMode="numeric"
-                pattern="[0-9]*"
                 required
-                helperText="Whole numbers only"
             />
             <Input
                 label="Name"
