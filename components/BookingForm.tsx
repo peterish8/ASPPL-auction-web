@@ -141,6 +141,13 @@ export const BookingForm: React.FC<BookingFormProps> = ({ trade, options }) => {
 
   return (
     <div className="bg-slate-900/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-800 p-8 lg:p-16">
+      <div className="mb-8 lg:mb-10">
+        <h2 className="text-2xl lg:text-3xl font-bold text-white mb-2">
+          Trade Booking Intimation
+        </h2>
+        <div className="h-1 w-full bg-emerald-500 rounded-full opacity-50" />
+      </div>
+
        <form onSubmit={handleSubmit(onSubmit)}>
           <PersonalInfo register={register} errors={errors} />
           <TradeDetails register={register} control={control} errors={errors} options={options} />
