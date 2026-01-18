@@ -34,7 +34,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({ register, control, e
                 control={control}
                 render={({ field }) => (
                     <Select
-                        label="Details"
+                        label="Details / விவரங்கள் / വിവരങ്ങൾ"
                         options={options.details}
                         value={field.value}
                         onChange={field.onChange}
@@ -46,7 +46,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({ register, control, e
             />
             
             <Input
-                label="Weight (kg)"
+                label="Weight (kg) / எடை (கிலோ) / ഭാരം (കിലോ)"
                 {...register("weight")}
                 error={errors.weight?.message}
                 placeholder="Enter weight in kg"
@@ -62,7 +62,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({ register, control, e
                 control={control}
                 render={({ field }) => (
                     <Select
-                        label="Type"
+                        label="Type / வகை / തരം"
                         options={options.type}
                         value={field.value}
                         onChange={field.onChange}
@@ -78,7 +78,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({ register, control, e
                 control={control}
                 render={({ field }) => (
                     <Select
-                        label="Depot"
+                        label="Depot / டிப்போ / ഡിപ്പോ"
                         options={options.depot}
                         value={field.value}
                         onChange={field.onChange}

@@ -22,7 +22,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ register, errors }) 
 
         <div className="space-y-8 lg:space-y-10">
             <Input
-                label="Phone Number"
+                label="Phone Number / தொலைபேசி எண் / ഫോൺ നമ്പർ"
                 {...register("phone_number")}
                 error={errors.phone_number?.message}
                 placeholder="Enter your phone number"
@@ -30,7 +30,7 @@ export const PersonalInfo: React.FC<PersonalInfoProps> = ({ register, errors }) 
                 required
             />
             <Input
-                label="Name"
+                label="Name / பெயர் / പേര്"
                 {...register("name")}
                 error={errors.name?.message}
                 placeholder="Enter your full name"
